@@ -1,0 +1,44 @@
+﻿🧭 1. Goal / Purpose
+The goal of this project is to create an interactive desktop application that helps student helicopter pilots practice startup & shutdown checklists, 
+emergency procedures, establishing "mental picture", and radio communication flows in a "chair flying" environment — without the cost and risk of real flight time.
+
+The app will simulate a simplified Robinson R22 instrument panel, enabling toggling of switches, 
+simulating procedures, and optionally replaying scripted voice responses for ATC-style training.
+
+🎯 2. Target Users
+- Student pilots (R22 trainees)
+- CFIs (Certified Flight Instructors) who want a demo or offline chair-flying aid
+- Aviation enthusiasts learning procedures
+
+✈️ 3. High-Level Features
+MVP:
+- Simulated cockpit panel (using Python & PySide / KyVy)
+- Toggleable switches
+- Visual indicators: 
+- Emergency lights:
+- Ability to save/load aircraft and airport related information to text (json?) file
+- Startup & shutdown procedures practice
+
+
+Stretch Goals:
+- Radio comms panel with push-to-talk simulation 
+- Voice synthesis and playback (text to voice playbooks)
+- text-to-voice ATIS information, when switch to ATIS frequency
+- AI-generated background ATC-style audio
+- Voice recognition input for commands (via speech-to-text or GPT)
+- Add emergency checklist modules
+- Feedback panel (e.g., “Master battery ON — Correct”)
+- Save/load student sessions
+
+✅ 4. Success Criteria
+- MVP runs as a standalone desktop .exe or .py app with graphical panel
+- User can walk through a full startup checklist using the app
+- Code is documented, testable, and committed to GitHub with a clean README
+- Stretch: Chair-fly radio simulator works with voice playback and user input flow
+- Stretch: User receives visual confirmation or gentle correction for checklist errors
+
+⚠️ 5. Constraints
+- Timeline: 3–4 weeks max
+- Focus is educational, not FAA-certified accuracy
+- UI built in Tkinter for simplicity and .exe bundling
+- Developer is working solo; scope must remain manageable
