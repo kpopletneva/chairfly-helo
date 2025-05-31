@@ -23,7 +23,7 @@ MVP:
 Stretch Goals:
 - Radio comms panel with push-to-talk simulation 
 - Voice synthesis and playback (text to voice playbooks)
-- text-to-voice ATIS information, when switch to ATIS frequency
+- Text-to-voice ATIS information, when switch to ATIS frequency
 - AI-generated background ATC-style audio
 - Voice recognition input for commands (via speech-to-text or GPT)
 - Add emergency checklist modules
@@ -40,5 +40,7 @@ Stretch Goals:
 ⚠️ 5. Constraints
 - Timeline: 3–4 weeks max
 - Focus is educational, not FAA-certified accuracy
-- UI built in Tkinter for simplicity and .exe bundling
+- Visually modern, responsive UI, preferably touchscreen-compatible (built in PySide)
+- Must run offline (no hard cloud dependencies for MVP)
+- Packaged as .exe (PyInstaller or equivalent)
 - Developer is working solo; scope must remain manageable
