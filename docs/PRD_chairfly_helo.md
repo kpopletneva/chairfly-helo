@@ -1,6 +1,6 @@
 ﻿🧭 1. Goal / Purpose
 The goal of this project is to create an interactive desktop application that helps student helicopter pilots practice startup & shutdown checklists, 
-emergency procedures, establishing "mental picture", and radio communication flows in a "chair flying" environment — without the cost and risk of real flight time.
+emergency procedures, radio communication flows, and establish "mental picture" in a "chair flying" environment — without the cost and risk of real flight time.
 
 The app will simulate a simplified Robinson R22 instrument panel, enabling toggling of switches, 
 simulating procedures, and optionally replaying scripted voice responses for ATC-style training.
@@ -12,10 +12,10 @@ simulating procedures, and optionally replaying scripted voice responses for ATC
 
 ✈️ 3. High-Level Features
 MVP:
-- Simulated cockpit panel (using Python & PySide / KyVy)
+- Simulated cockpit panel (using Python & PySide6)
 - Toggleable switches
-- Visual indicators: 
-- Emergency lights:
+- Visual indicators
+- Emergency lights
 - Ability to save/load aircraft and airport related information to text (json?) file
 - Startup & shutdown procedures practice
 

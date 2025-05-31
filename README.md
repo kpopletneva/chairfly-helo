@@ -1,22 +1,24 @@
-﻿# chairfly-helo
-# Helicopter Chair Fly Trainer (MVP)
+﻿# Helicopter Chair Fly Trainer (MVP)
 
-This is a Python-based desktop app to help student pilots to chair fly, practice startup checklists 
-and emergency procedures using an interactive cockpit mock — based on the Robinson R22 panel layout.
+This is a Python-based desktop training tool to help student pilots to practice startup & shutdown checklists, emergency procedures, 
+radio communication flows, and establish "mental picture" in a "chair flying" environment — without the cost and risk of real flight time,
+using an interactive cockpit mock — based on the Robinson R22 panel layout.
 
 ## Features (MVP)
-- Display your cockpit photo
-- Toggle switches
-- Basic instrument dials (RPM, Airspeed, ALT)
-- Push-to-Talk radio button simulator
-- Chair flying tool with radio interaction logic (Planned)
-- Set your radio frequences, listen to it while training (Stretch Goal)
+- Simulated cockpit panel (using Python & PySide6)
+- Toggleable switches
+- Visual indicators
+- Emergency lights
+- Ability to save/load aircraft and airport related information to file
+- Startup & shutdown procedures practice
 
-## Stack
-- Python 3.x
-- PyQt/ PySide/ Kyvy(UI)?
+## Built With
+- Python
+- PySide6 (Qt for Python)
+- Qt Designer
+- Designed for touchscreen & mouse input
 - PyInstaller (for `.exe` bundling)
-- (Optional) gTTS / pyttsx3 for voice output
+- (Stretch) gTTS / pyttsx3 for voice output
 
 ## Status
 🚧 Work in Progress.
