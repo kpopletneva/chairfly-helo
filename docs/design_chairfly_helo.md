@@ -1,4 +1,5 @@
 ﻿🧩 1. Feature Breakdown
+
 MVP (3 weeks)
 
 - GUI cockpit mockup (PySide6)
@@ -128,7 +129,7 @@ Fours:
 
 ```
 
-helicopter-chairfly-trainer/
+chairfly-helo/
 ├── app/                        # Main app source code
 │   ├── __init__.py
 │   ├── main.py                 # App entry point
@@ -148,18 +149,18 @@ helicopter-chairfly-trainer/
 ```
 
 🧰 4. Technology Stack
-Area	          Tech Used	                      Notes
-GUI	              PySide6	                      All are modern UI libraries
-Audio	          pyttsx3, gTTS or pygame	      For offline/online voice playback
-Packaging	      PyInstaller, cx_Freeze	      To make .exe for Windows or .app
-Data/Input	      JSON, CSV, text	              For checklist data, comm scripts
-AI/Voice (opt.)   OpenAI API, SpeechRecognition	  For simulated ATC conversations
+
+| Area	         | Tech Used	                 | Notes                             |
+| -------------- | ----------------------------- | --------------------------------- |
+| GUI	         | PySide6	                     | All are modern UI libraries       |
+| Audio	         | pyttsx3, gTTS or pygame	     | For offline/online voice playback |
+| Packaging	     | PyInstaller, cx_Freeze	     | To make .exe for Windows or .app  |
+| Data/Input	 | JSON, CSV, text	             | For checklist data, comm scripts  |
+| AI/Voice (opt.)| OpenAI API, SpeechRecognition | For simulated ATC conversations   |
 
 🗃️ 5. Data & UI Sketches
 - Checklist data stored as simple JSON:
 
-json
-Copy code
 {
   "startup": [
     {"step": "Battery ON", "type": "switch", "name": "battery"},
@@ -190,10 +191,11 @@ Manual tests for:
 (Optional) Use unittest module
 
 ⚠️ 7. Risks & Tradeoffs
-Risk ->	Mitigation
-Feature creep ->	Stick to MVP list before adding stretch
-GUI complexity or bugs ->	Use reusable widgets/components
-Voice API latency or quality ->	Use offline text-to-speech where possible
-Chair-fly logic complexity ->	Simplify with pre-filled call templates
-Packaging issues ->	Test early with PyInstaller or alternatives
-Learning curve with PySide/Kivy ->	Follow 1–2 basic tutorials before full build
+| Risk                            |	Mitigation                                   |
+| ------------------------------- | -------------------------------------------- |
+| Feature creep                   |	Stick to MVP list before adding stretch      |
+| GUI complexity or bugs          |	Use reusable widgets/components              |
+| Voice API latency or quality    |	Use offline text-to-speech where possible    |
+| Chair-fly logic complexity      |	Simplify with pre-filled call templates      |
+| Packaging issues                |	Test early with PyInstaller or alternatives  |
+| Learning curve with PySide/Kivy |	Follow 1–2 basic tutorials before full build |
