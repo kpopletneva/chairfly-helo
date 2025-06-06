@@ -1,5 +1,4 @@
-﻿import sys
-import random
+﻿import random
 from PySide6 import QtCore, QtWidgets, QtGui
 
 class AppMainWindow(QtWidgets.QMainWindow):
@@ -48,7 +47,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         frame_checklist, layout_checklist = self.create_framed_widget("Checklist goes here (25%)", "#fff0f0")
         layout_main.addWidget(frame_checklist, 1)
 
-        # Frame for ATC reply playbook, stretch goal toggles and other configs
+        # Frame for ATC clearances playbook, stretch goal toggles and other configs
         frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
         layout_main.addWidget(frame_playbook, 1)
 
@@ -73,7 +72,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         self.button_push_to_talk.setMouseTracking(True)
         layout_cockpit.addWidget(self.button_push_to_talk, alignment=QtCore.Qt.AlignBottom)
 
-        # Text "Hello, World" in different languages
+        # Text widget for ATC clearances playbook
         self.text = QtWidgets.QLabel("",
                                      alignment=QtCore.Qt.AlignCenter, parent=central_widget)
         self.text.setMouseTracking(True)
