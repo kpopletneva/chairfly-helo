@@ -51,6 +51,25 @@ class AppMainWindow(QtWidgets.QMainWindow):
         frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
         layout_main.addWidget(frame_playbook, 1)
 
+        # Create checklist dropdown (procedure selector)
+        self.dropdown_style = """
+            QComboBox {
+                padding: 4px;
+                font-size: 14px;
+            }
+        """
+        self.dropdown_procedure = QtWidgets.QComboBox()
+        self.dropdown_procedure.addItems([
+            "Startup",
+            "Shutdown",
+            "Emergency Procedures"
+        ])
+        self.dropdown_procedure.setStyleSheet(self.dropdown_style)
+        self.selected_procedure = self.dropdown_procedure.currentText()
+        selected_index = self.dropdown_procedure.currentIndex()
+        layout_checklist.addWidget(self.dropdown_procedure, alignment=QtCore.Qt.AlignTop)
+        self.dropdown_procedure.currentTextChanged.connect(self.handle_procedure_change)
+
         # "push-to-talk" button
         self.button_style = """
         QPushButton {
@@ -75,8 +94,13 @@ class AppMainWindow(QtWidgets.QMainWindow):
         # Text widget for ATC clearances playbook
         self.text = QtWidgets.QLabel("",
                                      alignment=QtCore.Qt.AlignCenter, parent=central_widget)
+        self.text.setWordWrap(True)  #Enable breaking lines inside the current layout width
         self.text.setMouseTracking(True)
         layout_playbook.addWidget(self.text)
+
+    def handle_procedure_change(self, new_value):
+        self.selected_procedure = new_value
+        #print(f"Selected procedure: {new_value}")
 
     def _setup_signals(self):
         #Connect push to talk button to slot
@@ -89,12 +113,19 @@ class AppMainWindow(QtWidgets.QMainWindow):
         frame.setFrameShadow(QtWidgets.QFrame.Raised)  # Raised, Sunken, Plain
         frame.setLineWidth(2)
         frame.setStyleSheet(f"background-color: {color};")
+        #Prevent the frame from stretching vertically or horizontally
+        frame.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         frame_layout = QtWidgets.QVBoxLayout(frame)
         #frame_label = QtWidgets.QLabel(text)
         #frame_label.setAlignment(QtCore.Qt.AlignCenter)
+        #Add a scroll bar to a frame appearing if contents exceed available space
+        scroll = QtWidgets.QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(frame)
+        scroll.setMouseTracking(True)
         frame.setMouseTracking(True)
 
-        return frame, frame_layout
+        return scroll, frame_layout
 
     @QtCore.Slot()
     def radio_sim(self):
