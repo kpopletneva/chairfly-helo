@@ -34,60 +34,52 @@ class AppMainWindow(QtWidgets.QMainWindow):
         # Ensure central child widget also tracks mouse
         central_widget.setMouseTracking(True)
         # Main horizontal layout
-        layout_main = QtWidgets.QHBoxLayout(central_widget)
+        self.layout_main = QtWidgets.QHBoxLayout(central_widget)
 
         # Left side:vertical frame (takes 50% width, 100% height)
         # Frame for cockpit mockup and push-to-talk button
         frame_cockpit, layout_cockpit = self.create_framed_widget("Cockpit mockup goes here (50%)", "#e6f7ff")
         layout_cockpit.addStretch()
-        layout_main.addWidget(frame_cockpit, 2)
+        self.layout_main.addWidget(frame_cockpit, 2)
         
         # Right side: contains two vertical frames
         # Frame for checklist and procedure drop-down
         frame_checklist, layout_checklist = self.create_framed_widget("Checklist goes here (25%)", "#fff0f0")
-        layout_main.addWidget(frame_checklist, 1)
-
-        # Frame for ATC clearances playbook, stretch goal toggles and other configs
-        frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
-        layout_main.addWidget(frame_playbook, 1)
-
         # Create checklist dropdown (procedure selector)
-        self.dropdown_style = """
-            QComboBox {
-                padding: 4px;
-                font-size: 14px;
-            }
-        """
-        self.dropdown_procedure = QtWidgets.QComboBox()
-        self.dropdown_procedure.addItems([
+        procedure_dropdown = self.add_dropdown([
             "Startup",
             "Shutdown",
             "Emergency Procedures"
         ])
-        self.dropdown_procedure.setStyleSheet(self.dropdown_style)
-        self.selected_procedure = self.dropdown_procedure.currentText()
-        selected_index = self.dropdown_procedure.currentIndex()
-        layout_checklist.addWidget(self.dropdown_procedure, alignment=QtCore.Qt.AlignTop)
-        self.dropdown_procedure.currentTextChanged.connect(self.handle_procedure_change)
+        checklist_panel = self.create_collapsible_panel(">>", "<<", frame_checklist, left_widget=procedure_dropdown)
+        layout_checklist.addWidget(checklist_panel, alignment=QtCore.Qt.AlignTop)
+        self.layout_main.addWidget(frame_checklist, 1)
+
+        # Frame for ATC clearances playbook, stretch goal toggles and other configs
+        frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
+        playbook_panel = self.create_collapsible_panel(">>", "<<", frame_playbook)
+        layout_playbook.addWidget(playbook_panel, alignment=QtCore.Qt.AlignTop)
+        self.layout_main.addWidget(frame_playbook, 1)
 
         # "push-to-talk" button
-        self.button_style = """
-        QPushButton {
-            background-color: red;
-            color: white;
-            font-weight: bold;
-            border: none;
-            padding: 10px;
-        }
-        QPushButton:hover {
-            background-color: #cc0000; /* slightly darker red */
-        }
-        QPushButton:pressed {
-            background-color: #990000; /* even darker red for pressed state */
-        }
+        button_style = """
+            QPushButton {
+                background-color: red;
+                color: white;
+                font-weight: bold;
+                border: 2px solid #cc0000;
+                border-radius: 6px;
+                padding: 10px;
+            }
+            QPushButton:hover {
+                background-color: #cc0000; /* slightly darker red */
+            }
+            QPushButton:pressed {
+                background-color: #990000; /* even darker red for pressed state */
+            }
         """
         self.button_push_to_talk = QtWidgets.QPushButton("PUSH TO TALK", parent=central_widget)
-        self.button_push_to_talk.setStyleSheet(self.button_style)
+        self.button_push_to_talk.setStyleSheet(button_style)
         self.button_push_to_talk.setMouseTracking(True)
         layout_cockpit.addWidget(self.button_push_to_talk, alignment=QtCore.Qt.AlignBottom)
 
@@ -98,21 +90,128 @@ class AppMainWindow(QtWidgets.QMainWindow):
         self.text.setMouseTracking(True)
         layout_playbook.addWidget(self.text)
 
-    def handle_procedure_change(self, new_value):
-        self.selected_procedure = new_value
-        #print(f"Selected procedure: {new_value}")
-
     def _setup_signals(self):
         #Connect push to talk button to slot
         self.playbook = ["Helicopter 603HH. Runway 25 cleared for takeoff. Lacamas Lake departure approved", "Helicopter 603HH. Runway 25 cleared to land. Make right traffic.", "Helicopter 603HH. Make right 180 for spacing.", "Привет мир"]
         self.button_push_to_talk.clicked.connect(self.radio_sim)
 
+    def add_dropdown(self, items):
+        """ Create dropdown widget with given items """
+        dropdown_style = """
+            QComboBox {
+                padding: 4px;
+                font-size: 14px;
+            }
+        """
+        dropdown = QtWidgets.QComboBox()
+        dropdown.addItems(items)
+        dropdown.setStyleSheet(dropdown_style)
+        selected_item = dropdown.currentText()
+        selected_index = dropdown.currentIndex()
+
+        dropdown.currentTextChanged.connect(self.handle_dropdown_change)
+
+        return dropdown
+
+    def handle_dropdown_change(self, new_value):
+        self.selected_item = new_value
+        #print(f"Selected procedure: {new_value}")
+
+    def create_collapsible_panel(self, text_collapse, text_expand, frame_to_toggle, left_widget=None):
+        """
+        - Adds a toggle button (and optional left-aligned widget) inside a horizontal layout to the top of a frame_to_toggle.
+        - Adds a thin vertical collapsed panel with a toggle button to the right when collapsed.
+
+        :param text_collapse: Text shown when frame is expanded (e.g. '>>')
+        :param text_expand: Text shown when frame is collapsed (e.g. '<<')
+        :param frame_to_toggle: A QFrame to show/hide
+        :param left_widget: Optional widget (e.g. dropdown) shown on the left of the toggle
+        :return: QHBoxLayout containing the toggle row
+        """
+        # Main container panel
+        panel = QtWidgets.QWidget()
+        panel_layout = QtWidgets.QVBoxLayout(panel)
+        panel_layout.setContentsMargins(0, 0, 0, 0)
+
+        # Top bar with toggle + optional left widget
+        toggle_style = """
+            text-align: right;
+            padding: 4px;
+            font-size: 14px;
+            background-color: transparent;
+            border: none;
+            color: black;
+        """
+
+        collapse_button = QtWidgets.QToolButton(text=text_collapse)
+        collapse_button.setStyleSheet(toggle_style)
+        collapse_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+
+        # Create horizontal layout
+        top_row = QtWidgets.QWidget()
+        top_row_layout = QtWidgets.QHBoxLayout(top_row)
+        top_row_layout.setContentsMargins(0, 0, 0, 0)
+        if left_widget:
+            top_row_layout.addWidget(left_widget)
+            top_row_layout.addStretch()
+        top_row_layout.addWidget(collapse_button, alignment=QtCore.Qt.AlignRight)
+
+
+        # Hidden version shown when collapsed
+        collapsed_bar = QtWidgets.QToolButton(text=text_expand)
+        collapsed_bar.setStyleSheet(toggle_style)
+        collapsed_bar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        collapsed_bar.setVisible(False)
+
+        #Thin vertical collapsed panel
+        panel = QtWidgets.QWidget()
+        panel_layout = QtWidgets.QVBoxLayout(panel)
+        panel_layout.setContentsMargins(0, 0, 0, 0)
+        panel_layout.addWidget(collapsed_bar, alignment=QtCore.Qt.AlignTop)
+        self.layout_main.addWidget(panel)
+
+        # Toggle behavior
+        def collapse():
+            frame_to_toggle.setVisible(False)
+            if left_widget:
+                left_widget.setVisible(False)
+            collapse_button.setVisible(False)
+            collapsed_bar.setVisible(True)
+
+        def expand():
+            frame_to_toggle.setVisible(True)
+            if left_widget:
+                left_widget.setVisible(True)
+            collapse_button.setVisible(True)
+            collapsed_bar.setVisible(False)
+
+        collapse_button.clicked.connect(collapse)
+        collapsed_bar.clicked.connect(expand)
+
+        return top_row
+
     def create_framed_widget(self, text, color):
+        """
+        Creates a scrollable QFrame with automatic scrollbars if content exceeds the visible area.
+
+        :param text (str): (Currently unused) Placeholder for optional label text
+        :param color (str): Background color of the frame (hex or named value)
+        :return tuple:
+            - QScrollArea: The scrollable container holding the frame
+            - QVBoxLayout: The layout inside the frame to which widgets can be added
+        """
+        
+        frame_style = f"""
+            background-color: {color};
+            font-size: 14px;
+            padding: 4px;
+        """
+
         frame = QtWidgets.QFrame()
-        frame.setFrameShape(QtWidgets.QFrame.Box)  # Box, Panel, StyledPanel, etc.
-        frame.setFrameShadow(QtWidgets.QFrame.Raised)  # Raised, Sunken, Plain
-        frame.setLineWidth(2)
-        frame.setStyleSheet(f"background-color: {color};")
+        frame.setFrameShape(QtWidgets.QFrame.StyledPanel)  # Box, Panel, StyledPanel, etc.
+        frame.setFrameShadow(QtWidgets.QFrame.Plain)  # Raised, Sunken, Plain
+        frame.setLineWidth(1)
+        frame.setStyleSheet(frame_style)
         #Prevent the frame from stretching vertically or horizontally
         frame.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         frame_layout = QtWidgets.QVBoxLayout(frame)
@@ -127,7 +226,6 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
         return scroll, frame_layout
 
-    @QtCore.Slot()
     def radio_sim(self):
         self.text.setText(random.choice(self.playbook))
 
