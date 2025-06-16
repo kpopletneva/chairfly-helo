@@ -1,5 +1,6 @@
 ﻿import random
 from PySide6 import QtCore, QtWidgets, QtGui
+from views.styles import StyleSheet
 
 class AppMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -28,7 +29,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         self._hide_timer.timeout.connect(self._hide_title_bar)
 
     def _setup_widgets(self):
-        # Create central child widget under main window to host everything else
+        """Create central child widget under main window to host everything else."""
         central_widget = QtWidgets.QWidget(self)
         self.setCentralWidget(central_widget)
         # Ensure central child widget also tracks mouse
@@ -61,25 +62,8 @@ class AppMainWindow(QtWidgets.QMainWindow):
         layout_playbook.addWidget(playbook_panel, alignment=QtCore.Qt.AlignTop)
         self.layout_main.addWidget(frame_playbook, 1)
 
-        # "push-to-talk" button
-        button_style = """
-            QPushButton {
-                background-color: red;
-                color: white;
-                font-weight: bold;
-                border: 2px solid #cc0000;
-                border-radius: 6px;
-                padding: 10px;
-            }
-            QPushButton:hover {
-                background-color: #cc0000; /* slightly darker red */
-            }
-            QPushButton:pressed {
-                background-color: #990000; /* even darker red for pressed state */
-            }
-        """
         self.button_push_to_talk = QtWidgets.QPushButton("PUSH TO TALK", parent=central_widget)
-        self.button_push_to_talk.setStyleSheet(button_style)
+        self.button_push_to_talk.setStyleSheet(StyleSheet.red_rounded_button())
         self.button_push_to_talk.setMouseTracking(True)
         layout_cockpit.addWidget(self.button_push_to_talk, alignment=QtCore.Qt.AlignBottom)
 
@@ -96,16 +80,10 @@ class AppMainWindow(QtWidgets.QMainWindow):
         self.button_push_to_talk.clicked.connect(self.radio_sim)
 
     def add_dropdown(self, items):
-        """ Create dropdown widget with given items """
-        dropdown_style = """
-            QComboBox {
-                padding: 4px;
-                font-size: 14px;
-            }
-        """
+        """Create dropdown widget with given items."""
         dropdown = QtWidgets.QComboBox()
         dropdown.addItems(items)
-        dropdown.setStyleSheet(dropdown_style)
+        dropdown.setStyleSheet(StyleSheet.dropdown_style())
         selected_item = dropdown.currentText()
         selected_index = dropdown.currentIndex()
 
@@ -134,17 +112,8 @@ class AppMainWindow(QtWidgets.QMainWindow):
         panel_layout.setContentsMargins(0, 0, 0, 0)
 
         # Top bar with toggle + optional left widget
-        toggle_style = """
-            text-align: right;
-            padding: 4px;
-            font-size: 14px;
-            background-color: transparent;
-            border: none;
-            color: black;
-        """
-
         collapse_button = QtWidgets.QToolButton(text=text_collapse)
-        collapse_button.setStyleSheet(toggle_style)
+        collapse_button.setStyleSheet(StyleSheet.toggle_style())
         collapse_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
 
         # Create horizontal layout
@@ -159,7 +128,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
         # Hidden version shown when collapsed
         collapsed_bar = QtWidgets.QToolButton(text=text_expand)
-        collapsed_bar.setStyleSheet(toggle_style)
+        collapsed_bar.setStyleSheet(StyleSheet.toggle_style())
         collapsed_bar.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         collapsed_bar.setVisible(False)
 
@@ -200,18 +169,11 @@ class AppMainWindow(QtWidgets.QMainWindow):
             - QScrollArea: The scrollable container holding the frame
             - QVBoxLayout: The layout inside the frame to which widgets can be added
         """
-        
-        frame_style = f"""
-            background-color: {color};
-            font-size: 14px;
-            padding: 4px;
-        """
-
         frame = QtWidgets.QFrame()
         frame.setFrameShape(QtWidgets.QFrame.StyledPanel)  # Box, Panel, StyledPanel, etc.
         frame.setFrameShadow(QtWidgets.QFrame.Plain)  # Raised, Sunken, Plain
         frame.setLineWidth(1)
-        frame.setStyleSheet(frame_style)
+        frame.setStyleSheet(StyleSheet.frame_style(color))
         #Prevent the frame from stretching vertically or horizontally
         frame.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         frame_layout = QtWidgets.QVBoxLayout(frame)
@@ -293,7 +255,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         self._is_fullscreen = False
 
     def resize_fullscreen_dimensions(self):
-        """Resizes to match screen resolution"""
+        """Resizes to match screen resolution."""
         screen_geometry = QtWidgets.QApplication.primaryScreen().availableGeometry()
         self.resize(screen_geometry.width(), screen_geometry.height())
         self.move(screen_geometry.topLeft())
