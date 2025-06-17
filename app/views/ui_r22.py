@@ -1,5 +1,4 @@
-﻿import random
-from PySide6 import QtCore, QtWidgets, QtGui
+﻿from PySide6 import QtCore, QtWidgets, QtGui
 from views.styles import StyleSheet
 
 class AppMainWindow(QtWidgets.QMainWindow):
@@ -8,7 +7,6 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
         self._setup_window()
         self._setup_widgets()
-        self._setup_signals()
 
     def _setup_window(self):
         self.setWindowTitle("ChairFly Trainer")
@@ -47,12 +45,12 @@ class AppMainWindow(QtWidgets.QMainWindow):
         # Frame for checklist and procedure drop-down
         frame_checklist, layout_checklist = self.create_framed_widget("Checklist goes here (25%)", "#fff0f0")
         # Create checklist dropdown (procedure selector)
-        procedure_dropdown = self.add_dropdown([
+        self.procedure_dropdown = self.add_dropdown([
             "Startup",
             "Shutdown",
             "Emergency Procedures"
         ])
-        checklist_panel = self.create_collapsible_panel(">>", "<<", frame_checklist, left_widget=procedure_dropdown)
+        checklist_panel = self.create_collapsible_panel(">>", "<<", frame_checklist, left_widget=self.procedure_dropdown)
         layout_checklist.addWidget(checklist_panel, alignment=QtCore.Qt.AlignTop)
         self.layout_main.addWidget(frame_checklist, 1)
 
@@ -68,16 +66,11 @@ class AppMainWindow(QtWidgets.QMainWindow):
         layout_cockpit.addWidget(self.button_push_to_talk, alignment=QtCore.Qt.AlignBottom)
 
         # Text widget for ATC clearances playbook
-        self.text = QtWidgets.QLabel("",
+        self.text_playbook = QtWidgets.QLabel("",
                                      alignment=QtCore.Qt.AlignCenter, parent=central_widget)
-        self.text.setWordWrap(True)  #Enable breaking lines inside the current layout width
-        self.text.setMouseTracking(True)
-        layout_playbook.addWidget(self.text)
-
-    def _setup_signals(self):
-        #Connect push to talk button to slot
-        self.playbook = ["Helicopter 603HH. Runway 25 cleared for takeoff. Lacamas Lake departure approved", "Helicopter 603HH. Runway 25 cleared to land. Make right traffic.", "Helicopter 603HH. Make right 180 for spacing.", "Привет мир"]
-        self.button_push_to_talk.clicked.connect(self.radio_sim)
+        self.text_playbook.setWordWrap(True)  #Enable breaking lines inside the current layout width
+        self.text_playbook.setMouseTracking(True)
+        layout_playbook.addWidget(self.text_playbook)
 
     def add_dropdown(self, items):
         """Create dropdown widget with given items."""
@@ -87,13 +80,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         selected_item = dropdown.currentText()
         selected_index = dropdown.currentIndex()
 
-        dropdown.currentTextChanged.connect(self.handle_dropdown_change)
-
         return dropdown
-
-    def handle_dropdown_change(self, new_value):
-        self.selected_item = new_value
-        #print(f"Selected procedure: {new_value}")
 
     def create_collapsible_panel(self, text_collapse, text_expand, frame_to_toggle, left_widget=None):
         """
@@ -188,9 +175,6 @@ class AppMainWindow(QtWidgets.QMainWindow):
 
         return scroll, frame_layout
 
-    def radio_sim(self):
-        self.text.setText(random.choice(self.playbook))
-
     def keyPressEvent(self, event):
         """Catch Esc key to leave full‐screen."""
         if event.key() == QtCore.Qt.Key_Escape and self._is_fullscreen:
@@ -222,7 +206,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
                 # Only start or keep the hide timer if title is currently shown
                 if self._title_shown and not self._hide_timer.isActive():
                     self._hide_timer.start()
-        return super().eventFilter(watched, event)
+        return super().eventFilter(watched, event) 
 
     def _hide_title_bar(self):
         """Add FramelessWindowHint and show full screen."""
