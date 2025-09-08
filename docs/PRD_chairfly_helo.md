@@ -1,6 +1,6 @@
 ﻿🧭 1. Goal / Purpose
 The goal of this project is to create an interactive desktop application that helps student helicopter pilots practice startup & shutdown checklists, 
-emergency procedures, radio communication flows, and establish "mental picture" in a "chair flying" environment — without the cost and risk of real flight time.
+emergency procedures, radio communication flows, and establish "mental picture" in a "chair flying" environment - without the cost and risk of real flight time.
 
 The app will simulate a simplified Robinson R22 instrument panel, enabling toggling of switches, 
 simulating procedures, and optionally replaying scripted voice responses for ATC-style training.
@@ -27,7 +27,7 @@ Stretch Goals:
 - AI-generated background ATC-style audio
 - Voice recognition input for commands (via speech-to-text or GPT)
 - Add emergency checklist modules
-- Feedback panel (e.g., “Master battery ON — Correct”)
+- Feedback panel (e.g., “Master battery ON - Correct”)
 - Save/load student sessions
 
 ✅ 4. Success Criteria
@@ -38,7 +38,6 @@ Stretch Goals:
 - Stretch: User receives visual confirmation or gentle correction for checklist errors
 
 ⚠️ 5. Constraints
-- Timeline: 3–4 weeks max
 - Focus is educational, not FAA-certified accuracy
 - Visually modern, responsive UI, preferably touchscreen-compatible (built in PySide)
 - Must run offline (no hard cloud dependencies for MVP)
