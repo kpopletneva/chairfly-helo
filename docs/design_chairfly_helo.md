@@ -113,17 +113,13 @@ Fours:
       │ │ state_manager.py  │ │  ← Tracks state of toggles/switches
       │ └───────────────────┘ |
       │ ┌───────────────────┐ │    Receives user input (clicked buttons, selected drop downs, etc.)
-      │ │ app_controller.py │ │  ← Updates state_manager.py
+      │ │ app_controller.py │ │  ← Updates state_manager.py (e.g. updates procedure selected - startup, shutdown, emergency)
       │ └───────────────────┘ │    Selects view to present
       └──────────┬────────────┘
                  │
       ┌──────────▼────────────┐
-      │ ChecklistEngine.py    │  <- procedure validation logic for startup, shutdown, emergency
-      └───────────────────────┘
-                 │
-      ┌──────────▼────────────┐
       │ FeedbackManager.py    │  <- GUI cues or sound alerts for visuals/audio/text feedback (stretch)
-      └───────────────────────┘
+      └──────────┬────────────┘
                  │
       ┌──────────▼────────────┐
       │ ChairFlyComms.py      │  <- push-to-talk & voice playback (stretch)
@@ -142,7 +138,7 @@ chairfly-helo/
 │   │   ├──                     # App entry point
 │   |   ├── ui_r22.py           # PySide6 GUI
 │   |   ├── styles.py           # GUI styles sheets
-│   ├── model/                  # Application logic
+│   ├── models/                  # Application logic
 │   │   ├── __init__.py
 │   │   └── state_manager.py     # Tracks toggle state, logic
 |   ├── controllers/             # Coordination between Model and View
