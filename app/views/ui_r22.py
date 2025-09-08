@@ -112,7 +112,6 @@ class AppMainWindow(QtWidgets.QMainWindow):
             top_row_layout.addStretch()
         top_row_layout.addWidget(collapse_button, alignment=QtCore.Qt.AlignRight)
 
-
         # Hidden version shown when collapsed
         collapsed_bar = QtWidgets.QToolButton(text=text_expand)
         collapsed_bar.setStyleSheet(StyleSheet.toggle_style())
