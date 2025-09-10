@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chairfly-helo"
+version = "0.1.0"
+description = "Helicopter Chair Fly Trainer App"
+authors = [
+    { name="Kseniia Popletneva", email="kseniia.popletneva@gmail.com" }
+]
+
+[tool.pytest.ini_options]
+qt_api = "pyside6"
+addopts = "--strict-markers"
+testpaths = [
+"tests",
+]
+pythonpath = [
+".",
+"app",
+]
+markers = [
+    "gui: GUI-related tests",
+    "integration: Slower tests covering multiple components",
+]
