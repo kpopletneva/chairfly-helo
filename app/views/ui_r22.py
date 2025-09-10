@@ -119,9 +119,6 @@ class AppMainWindow(QtWidgets.QMainWindow):
         collapsed_bar.setVisible(False)
 
         #Thin vertical collapsed panel
-        panel = QtWidgets.QWidget()
-        panel_layout = QtWidgets.QVBoxLayout(panel)
-        panel_layout.setContentsMargins(0, 0, 0, 0)
         panel_layout.addWidget(collapsed_bar, alignment=QtCore.Qt.AlignTop)
         self.layout_main.addWidget(panel)
 
