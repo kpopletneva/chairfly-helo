@@ -131,18 +131,18 @@ Fours:
 ```
 
 chairfly-helo/
-├── app/                     # Main app source code
+├── app/                         # Main app source code
 │   ├── __init__.py
 │   ├── main.py
-|   ├── views/                  # MVC View
-│   │   ├──                     # App entry point
-│   |   ├── ui_r22.py           # PySide6 GUI
-│   |   ├── styles.py           # GUI styles sheets
+|   ├── views/                   # MVC View
+│   │   ├──                      # App entry point
+│   |   ├── ui_r22.py            # PySide6 GUI (widgets, layouts, event filters)
+│   |   ├── styles.py            # GUI styles sheets
 │   ├── models/                  # Application logic
 │   │   ├── __init__.py
-│   │   └── state_manager.py     # Tracks toggle state, logic
-|   ├── controllers/             # Coordination between Model and View
-│   │   └── app_controller.py    # Intermediary between the Model and the View, handles user input
+│   │   └── state_manager.py     # Stores app state (user selections, fullscreen flags, title visibility, etc.)
+|   ├── controllers/             # Bridge between View and Model
+│   │   └── app_controller.py    # Core logic, interprets user actions, updates states, and refreshes the view
 │   └── assets/                  # Images, icons, mock panel graphics
 │       └── r22_panel.png
 ├── tests/                       # Tests
@@ -185,6 +185,7 @@ chairfly-helo/
   - (Optional) Simulated ATC conversations toggle
 
 🧪 6. Testing Strategy
+
 Auto tests for:
 - Checklist validation logic
 - Instrument state tracking
