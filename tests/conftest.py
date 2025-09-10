@@ -1,5 +1,4 @@
 import os
-import sys
 import pytest
 from PySide6.QtWidgets import QApplication
 from pytestqt.qt_compat import qt_api

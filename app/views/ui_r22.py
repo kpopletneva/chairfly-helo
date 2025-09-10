@@ -27,7 +27,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         self._hide_timer.timeout.connect(self._hide_title_bar)
 
     def _setup_widgets(self):
-        """Create central child widget under main window to host everything else."""
+        # Create central child widget under main window to host everything else
         central_widget = QtWidgets.QWidget(self)
         self.setCentralWidget(central_widget)
         # Ensure central child widget also tracks mouse
