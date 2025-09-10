@@ -43,22 +43,22 @@ class AppMainWindow(QtWidgets.QMainWindow):
         
         # Right side: contains two vertical frames
         # Frame for checklist and procedure drop-down
-        frame_checklist, layout_checklist = self.create_framed_widget("Checklist goes here (25%)", "#fff0f0")
+        self.frame_checklist, layout_checklist = self.create_framed_widget("Checklist goes here (25%)", "#fff0f0")
         # Create checklist dropdown (procedure selector)
         self.procedure_dropdown = self.add_dropdown([
             "Startup",
             "Shutdown",
             "Emergency Procedures"
         ])
-        checklist_panel = self.create_collapsible_panel(">>", "<<", frame_checklist, left_widget=self.procedure_dropdown)
-        layout_checklist.addWidget(checklist_panel, alignment=QtCore.Qt.AlignTop)
-        self.layout_main.addWidget(frame_checklist, 1)
+        self.checklist_panel, self.checklist_collapse_button, self.checklist_collapsed_bar = self.create_collapsible_panel(">>", "<<", self.frame_checklist, left_widget=self.procedure_dropdown)
+        layout_checklist.addWidget(self.checklist_panel, alignment=QtCore.Qt.AlignTop)
+        self.layout_main.addWidget(self.frame_checklist, 1)
 
         # Frame for ATC clearances playbook, stretch goal toggles and other configs
-        frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
-        playbook_panel = self.create_collapsible_panel(">>", "<<", frame_playbook)
-        layout_playbook.addWidget(playbook_panel, alignment=QtCore.Qt.AlignTop)
-        self.layout_main.addWidget(frame_playbook, 1)
+        self.frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
+        self.playbook_panel, self.playbook_collapse_button, self.playbook_collapsed_bar = self.create_collapsible_panel(">>", "<<", self.frame_playbook)
+        layout_playbook.addWidget(self.playbook_panel, alignment=QtCore.Qt.AlignTop)
+        self.layout_main.addWidget(self.frame_playbook, 1)
 
         self.button_push_to_talk = QtWidgets.QPushButton("PUSH TO TALK", parent=central_widget)
         self.button_push_to_talk.setStyleSheet(StyleSheet.red_rounded_button())
@@ -140,7 +140,7 @@ class AppMainWindow(QtWidgets.QMainWindow):
         collapse_button.clicked.connect(collapse)
         collapsed_bar.clicked.connect(expand)
 
-        return top_row
+        return top_row, collapse_button, collapsed_bar
 
     def create_framed_widget(self, text, color):
         """
