@@ -1,0 +1,7 @@
+-r requirements.txt  # install runtime deps first
+
+pytest==8.3.5
+pytest-qt==4.5.0
+black==25.1.0
+mypy_extensions==1.1.0
+flake8==7.1.1
