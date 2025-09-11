@@ -50,13 +50,17 @@ class AppMainWindow(QtWidgets.QMainWindow):
             "Shutdown",
             "Emergency Procedures"
         ])
-        self.checklist_panel, self.checklist_collapse_button, self.checklist_collapsed_bar = self.create_collapsible_panel(">>", "<<", self.frame_checklist, left_widget=self.procedure_dropdown)
+        self.checklist_panel, self.checklist_collapse_button, self.checklist_collapsed_bar = self.create_collapsible_panel(
+            ">>", "<<", self.frame_checklist, left_widget=self.procedure_dropdown
+        )
         layout_checklist.addWidget(self.checklist_panel, alignment=QtCore.Qt.AlignTop)
         self.layout_main.addWidget(self.frame_checklist, 1)
 
         # Frame for ATC clearances playbook, stretch goal toggles and other configs
         self.frame_playbook, layout_playbook = self.create_framed_widget("Radio playbook goes here (25%)", "#f0fff0")
-        self.playbook_panel, self.playbook_collapse_button, self.playbook_collapsed_bar = self.create_collapsible_panel(">>", "<<", self.frame_playbook)
+        self.playbook_panel, self.playbook_collapse_button, self.playbook_collapsed_bar = self.create_collapsible_panel(
+            ">>", "<<", self.frame_playbook
+        )
         layout_playbook.addWidget(self.playbook_panel, alignment=QtCore.Qt.AlignTop)
         self.layout_main.addWidget(self.frame_playbook, 1)
 
