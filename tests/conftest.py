@@ -6,7 +6,9 @@ from app.models.state_manager import AppState
 from app.views.ui_r22 import AppMainWindow
 from app.controllers.app_controller import AppController
 
-# Force Qt into headless/offscreen mode (important for GitHub Actions CI)
+# Force Qt into headless/offscreen mode
+# It's important for GitHub Actions CI because
+# it prevents Qt from needing a real display on GitHub runners
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
 @pytest.fixture
